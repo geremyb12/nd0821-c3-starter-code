@@ -1,6 +1,7 @@
 import numpy as np
 import json
 import os
+import ast
 from joblib import dump
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.linear_model import LogisticRegression
@@ -113,7 +114,7 @@ def inference(model, X):
     preds = model.predict(X)
     return preds
 
-def save_lr_model(lr_model, encoder, lb, slice_report):
+def save_lr_model(lr_model, encoder, lb, slice_report, aggregated_scores):
     """ Save model/encoder/label binarizer to file.
 
     Inputs
@@ -136,3 +137,32 @@ def save_lr_model(lr_model, encoder, lb, slice_report):
     dump(lb, os.path.join(directory, 'label_binarizer.joblib'))
     with open(os.path.join(directory, 'slice_report.json'), 'w') as f:
         json.dump(slice_report, f)
+
+    with open(os.path.join(directory, 'aggregated_scores.json'), 'w') as f:
+        json.dump(aggregated_scores, f)
+
+
+def aggregate_performance_metrics(data_str):
+    data_dict = ast.literal_eval(data_str)
+    aggregated_metrics = {}
+
+    for category, metrics in data_dict.items():
+        category_name = category[0]
+        if category_name not in aggregated_metrics:
+            aggregated_metrics[category_name] = {'precision': 0, 'recall': 0, 'f1-score': 0}
+
+        aggregated_metrics[category_name]['precision'] += metrics['precision']
+        aggregated_metrics[category_name]['recall'] += metrics['recall']
+        aggregated_metrics[category_name]['f1-score'] += metrics['f1-score']
+
+    for category, metrics in aggregated_metrics.items():
+        num_instances = len([c for c, _ in data_dict.keys() if c == category])
+        aggregated_metrics[category]['precision'] /= num_instances
+        aggregated_metrics[category]['recall'] /= num_instances
+        aggregated_metrics[category]['f1-score'] /= num_instances
+
+    return str(aggregated_metrics)
+
+
+
+

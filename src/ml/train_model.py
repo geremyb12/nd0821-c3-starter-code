@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from src.ml.data import process_data
-from src.ml.model import train_model, evaluate_model_slices, save_lr_model
+from src.ml.model import train_model, evaluate_model_slices, save_lr_model, aggregate_performance_metrics
 import pandas as pd
 
 
@@ -10,7 +10,6 @@ def train_and_save_model():
     This function loads the data, splits it into training and testing sets,
     processes the training data, trains a machine learning model, and saves
     the trained model.
-
     """
     # Load data
     data = pd.read_csv("./src/data/census.csv")
@@ -41,7 +40,8 @@ def train_and_save_model():
 
     slice_report = evaluate_model_slices(model, X_test, y_test, cat_features)
 
-    save_lr_model(model, encoder, lb, slice_report)
+    aggregated_scores = aggregate_performance_metrics(slice_report)
+    save_lr_model(model, encoder, lb, slice_report,aggregated_scores)
 
 
 if __name__ == "__main__":
