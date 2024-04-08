@@ -2,7 +2,7 @@
 
 from sklearn.model_selection import train_test_split
 
-# Add the necessary imports for the starter code.
+# Add the necessary imports for thefinfinal_project_deploy_model_fastapi code.
 
 # Add code to load in the data.
 
@@ -23,6 +23,6 @@ X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label="salary", training=True
 )
 
-# Proces the test data with the process_data function.
+# Process the test data with the process_data function.
 
 # Train and save a model.

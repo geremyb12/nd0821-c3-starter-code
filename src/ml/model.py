@@ -1,7 +1,8 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.linear_model import LogisticRegression
+from data import process_data
 
 
-# Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -15,10 +16,15 @@ def train_model(X_train, y_train):
     Returns
     -------
     model
-        Trained machine learning model.
+        Trained logistic regression model.
     """
+    # Process the training data
+    X_train_processed, y_train_processed, _, _ = process_data(X_train, label=y_train)
 
-    pass
+    # Initialize and train a Logistic Regression model
+    model = LogisticRegression()
+    model.fit(X_train_processed, y_train_processed)
+    return model
 
 
 def compute_model_metrics(y, preds):
@@ -48,8 +54,8 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
-        Trained machine learning model.
+    model :
+        Trained logistic regression model.
     X : np.array
         Data used for prediction.
     Returns
@@ -57,4 +63,9 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    # Process the input data
+    X_processed, _, encoder, lb = process_data(X, training=False)
+
+    # Perform inference using the trained model
+    preds = model.predict(X_processed)
+    return preds
