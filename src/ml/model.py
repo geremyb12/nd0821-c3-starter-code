@@ -2,7 +2,6 @@ import numpy as np
 import json
 import os
 from joblib import dump
-from .data import process_data
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.linear_model import LogisticRegression
 
@@ -110,11 +109,8 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    # Process the input data
-    X_processed, _, encoder, lb = process_data(X, training=False)
-
     # Perform inference using the trained model
-    preds = model.predict(X_processed)
+    preds = model.predict(X)
     return preds
 
 def save_lr_model(lr_model, encoder, lb, slice_report):
