@@ -56,7 +56,7 @@ def test_save_lr_model(sample_data):
     encoder.fit(X_train)
     lb = LabelBinarizer()
     lb.fit(y_train)
-    slice_report = {'feature_slice': {'precision': 0.5, 'recall': 0.5, 'f1-score': 0.5}}
+    slice_report = {('workclass', 17.0): {'precision': 0.0, 'recall': 1.0, 'f1-score': 0.0}}
     report = json.dumps(slice_report)
     aggregated_scores = aggregate_performance_metrics(report)
     save_lr_model(model, encoder, lb, slice_report, aggregated_scores)
