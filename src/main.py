@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 from src.ml import model
 from src.ml.data import process_data
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import List
 
 

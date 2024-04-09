@@ -135,10 +135,10 @@ def save_lr_model(lr_model, encoder, lb, slice_report, aggregated_scores):
     dump(lr_model, os.path.join(directory, 'lr_model.joblib'))
     dump(encoder, os.path.join(directory, 'encoder.joblib'))
     dump(lb, os.path.join(directory, 'label_binarizer.joblib'))
-    with open(os.path.join(directory, 'slice_report.json'), 'w') as f:
+    with open(os.path.join(directory, 'slice_report.txt'), 'w') as f:
         json.dump(slice_report, f)
 
-    with open(os.path.join(directory, 'aggregated_scores.json'), 'w') as f:
+    with open(os.path.join(directory, 'aggregated_scores.txt'), 'w') as f:
         json.dump(aggregated_scores, f)
 
 
