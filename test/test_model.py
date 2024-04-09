@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder, LabelBinarizer
 import pytest
 import os
-from src.ml.model import train_model, evaluate_model_slices, compute_model_metrics, inference, save_lr_model
+from src.ml.model import train_model, evaluate_model_slices, compute_model_metrics, inference, save_lr_model, aggregate_performance_metrics
 
 
 @pytest.fixture
@@ -56,12 +56,15 @@ def test_save_lr_model(sample_data):
     lb = LabelBinarizer()
     lb.fit(y_train)
     slice_report = {'feature_slice': {'precision': 0.5, 'recall': 0.5, 'f1-score': 0.5}}
-    save_lr_model(model, encoder, lb, slice_report)
+
+    aggregated_scores = aggregate_performance_metrics(slice_report)
+    save_lr_model(model, encoder, lb, slice_report, aggregated_scores)
     # Check if files are created
     assert os.path.exists('src/model/lr_model.joblib')
     assert os.path.exists('src/model/encoder.joblib')
     assert os.path.exists('src/model/label_binarizer.joblib')
     assert os.path.exists('src/model/slice_report.json')
+    assert os.path.exists('src/model/aggregated_scores.json')
 
 
 if __name__ == "__main__":
