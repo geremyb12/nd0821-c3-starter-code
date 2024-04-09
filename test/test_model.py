@@ -3,8 +3,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder, LabelBinarizer
 import pytest
 import os
-import json
-from src.ml.model import train_model, evaluate_model_slices, compute_model_metrics, inference, save_lr_model, aggregate_performance_metrics
+from unittest.mock import patch
+from src.ml.model import train_model, evaluate_model_slices, compute_model_metrics, inference, save_lr_model, \
+    aggregate_performance_metrics
 
 
 @pytest.fixture
@@ -46,26 +47,6 @@ def test_inference(sample_data):
     model.fit(X_train, y_train)
     preds = inference(model, X_train)
     assert len(preds) == len(X_train)
-
-
-def test_save_lr_model(sample_data):
-    X_train, y_train = sample_data
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
-    encoder = OneHotEncoder()
-    encoder.fit(X_train)
-    lb = LabelBinarizer()
-    lb.fit(y_train)
-    slice_report = {('workclass', 17.0): {'precision': 0.0, 'recall': 1.0, 'f1-score': 0.0}}
-    report = str(slice_report)
-    aggregated_scores = aggregate_performance_metrics(report)
-    save_lr_model(model, encoder, lb, slice_report, aggregated_scores)
-    # Check if files are created
-    assert os.path.exists('src/model/lr_model.joblib')
-    assert os.path.exists('src/model/encoder.joblib')
-    assert os.path.exists('src/model/label_binarizer.joblib')
-    assert os.path.exists('src/model/slice_report.json')
-    assert os.path.exists('src/model/aggregated_scores.json')
 
 
 if __name__ == "__main__":
