@@ -22,8 +22,8 @@ jobs:
         if [ -f src/requirements.txt ]; then pip install -r src/requirements.txt; fi
     - name: Lint project 3 with flake8
       run: |
-        flake8 final_project_deploy_model_fastapi/ --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 final_project_deploy_model_fastapi/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 ./ --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 ./ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest in project 3
       run: |
-        python -m pytest final_project_deploy_model_fastapi -vv
+        python -m pytest ./ -vv
