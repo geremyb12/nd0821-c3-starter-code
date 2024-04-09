@@ -57,7 +57,7 @@ def test_save_lr_model(sample_data):
     lb = LabelBinarizer()
     lb.fit(y_train)
     slice_report = {('workclass', 17.0): {'precision': 0.0, 'recall': 1.0, 'f1-score': 0.0}}
-    report = json.dumps(slice_report)
+    report = str(slice_report)
     aggregated_scores = aggregate_performance_metrics(report)
     save_lr_model(model, encoder, lb, slice_report, aggregated_scores)
     # Check if files are created
