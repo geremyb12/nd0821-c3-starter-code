@@ -57,7 +57,7 @@ def test_save_lr_model(sample_data):
     lb.fit(y_train)
     slice_report = {'feature_slice': {'precision': 0.5, 'recall': 0.5, 'f1-score': 0.5}}
 
-    aggregated_scores = aggregate_performance_metrics(slice_report)
+    aggregated_scores = aggregate_performance_metrics(str(slice_report))
     save_lr_model(model, encoder, lb, slice_report, aggregated_scores)
     # Check if files are created
     assert os.path.exists('src/model/lr_model.joblib')

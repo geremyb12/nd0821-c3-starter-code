@@ -49,7 +49,7 @@ async def root():
 # Define route for model inference
 @app.post("/predict/")
 async def predict(data: List[InputData]):
-    df = pd.DataFrame([item.model_dump() for item in data])
+    df = pd.DataFrame([item.dict() for item in data])
     input_data, _, _, _ = process_data(df, cat_features, label=None, encoder=encoder, lb=lb, training=False)
     # Perform inference
     predictions = model.inference(lr_model,input_data)
