@@ -1,16 +1,11 @@
 from fastapi import FastAPI
 import pandas as pd
 import joblib
-from src.ml import model
 from src.ml.data import process_data
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 
-
 app = FastAPI()
-lr_model = joblib.load("src/model/lr_model.joblib")
-encoder = joblib.load("src/model/encoder.joblib")
-lb = joblib.load("src/model/label_binarizer.joblib")
 
 cat_features = [
     "workclass",
@@ -23,21 +18,22 @@ cat_features = [
     "native_country",
 ]
 
-class InputData(BaseModel):
-    age: int
-    workclass: str
-    fnlwgt: int
-    education: str
-    education_num: int
-    marital_status: str
-    occupation: str
-    relationship: str
-    race: str
-    sex: str
-    capital_gain: int
-    capital_loss: int
-    hours_per_week: int
-    native_country: str
+
+class Input(BaseModel):
+    age: int = Field(..., example=35)
+    capital_gain: int = Field(..., example=1500)
+    capital_loss: int = Field(..., example=100)
+    education: str = Field(..., example="HS-grad")
+    education_num: int = Field(..., example=9)
+    fnlgt: int = Field(..., example=200000)
+    hours_per_week: int = Field(..., example=40)
+    marital_status: str = Field(..., example="Married-civ-spouse")
+    native_country: str = Field(..., example="United-States")
+    occupation: str = Field(..., example="Exec-managerial")
+    race: str = Field(..., example="White")
+    relationship: str = Field(..., example="Husband")
+    sex: str = Field(..., example="Male")
+    workclass: str = Field(..., example="Private")
 
 
 # Define route for root
@@ -48,11 +44,17 @@ async def root():
 
 # Define route for model inference
 @app.post("/predict/")
-async def predict(data: List[InputData]):
+async def predict(data: List[Input]):
     df = pd.DataFrame([item.dict() for item in data])
     input_data, _, _, _ = process_data(df, cat_features, label=None, encoder=encoder, lb=lb, training=False)
     # Perform inference
-    predictions = model.inference(lr_model,input_data)
+    predictions = lr_model.inference(lr_model, input_data)
     return {"predictions": predictions.tolist()}
 
 
+@app.on_event("startup")
+async def startup_event():
+    global lr_model, encoder, lb
+    lr_model = joblib.load("src/model/lr_model.joblib")
+    encoder = joblib.load("src/model/encoder.joblib")
+    lb = joblib.load("src/model/label_binarizer.joblib")

@@ -1,79 +1,75 @@
-https://github.com/geremyb12/nd0821-c3-starter-code
+# Project Readme
 
-# Render Set up
-Free instance
-uvicorn src.main:app --host 0.0.0.0 --port 10000
+This repository contains starter code for the **Census Income Prediction** project as part of the Udacity Data Scientist Nanodegree program.
 
-# Environment Set up
-* Download and install conda if you don’t have it already.
-    * Use the supplied requirements file to create a new environment, or
-    * conda create -n [envname] "python=3.8" scikit-learn dvc pandas numpy pytest jupyter jupyterlab fastapi uvicorn -c conda-forge
-    * Install git either through conda (“conda install git”) or through your CLI, e.g. sudo apt-get git.
+## Overview
 
-## Repositories
+The project aims to develop a machine learning model to predict whether an individual's income exceeds $50,000 per year based on census data. The project involves several stages including data preprocessing, model development, API creation, and deployment.
 
-* Create a directory for the project and initialize Git and DVC.
-   * As you work on the code, continually commit changes. Trained models you want to keep must be committed to DVC.
-* Connect your local Git repository to GitHub.
+## Environment Setup
 
-## Set up S3
+To set up your environment for this project, follow these steps:
 
-* In your CLI environment install the<a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html" target="_blank"> AWS CLI tool</a>.
-* In the navigation bar in the Udacity classroom select **Open AWS Gateway** and then click **Open AWS Console**. You will not need the AWS Access Key ID or Secret Access Key provided here.
-* From the Services drop down select S3 and then click Create bucket.
-* Give your bucket a name, the rest of the options can remain at their default.
+1. **Clone the Repository**: Clone this repository to your local machine using the following command:
 
-To use your new S3 bucket from the AWS CLI you will need to create an IAM user with the appropriate permissions. The full instructions can be found <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#id_users_create_console" target="_blank">here</a>, what follows is a paraphrasing:
+   ```bash
+   git clone https://github.com/geremyb12/nd0821-c3-starter-code.git
+Install Dependencies: Set up a conda environment with the necessary dependencies by running:
 
-* Sign in to the IAM console <a href="https://console.aws.amazon.com/iam/" target="_blank">here</a> or from the Services drop down on the upper navigation bar.
-* In the left navigation bar select **Users**, then choose **Add user**.
-* Give the user a name and select **Programmatic access**.
-* In the permissions selector, search for S3 and give it **AmazonS3FullAccess**
-* Tags are optional and can be skipped.
-* After reviewing your choices, click create user. 
-* Configure your AWS CLI to use the Access key ID and Secret Access key.
+conda create -n [envname] "python=3.8"
 
-## GitHub Actions
+conda activate [envname]
 
-* Setup GitHub Actions on your repository. You can use one of the pre-made GitHub Actions if at a minimum it runs pytest and flake8 on push and requires both to pass without error.
-   * Make sure you set up the GitHub Action to have the same version of Python as you used in development.
-* Add your <a href="https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions" target="_blank">AWS credentials to the Action</a>.
-* Set up <a href="https://github.com/iterative/setup-dvc" target="_blank">DVC in the action</a> and specify a command to `dvc pull`.
+pip install src/requirements.txt
 
-## Data
+## GitHub Actions Setup
+To set up GitHub Actions for this project, follow these steps:
 
-* Download census.csv from the data folder in the starter repository.
-   * Information on the dataset can be found <a href="https://archive.ics.uci.edu/ml/datasets/census+income" target="_blank">here</a>.
-* Create a remote DVC remote pointing to your S3 bucket and commit the data.
-* This data is messy, try to open it in pandas and see what you get.
-* To clean it, use your favorite text editor to remove all spaces.
-* Commit this modified data to DVC under a new name (we often want to keep the raw data untouched but then can keep updating the cooked version).
-
-## Model
-
-* Using the starter code, write a machine learning model that trains on the clean data and saves the model. Complete any function that has been started.
-* Write unit tests for at least 3 functions in the model code.
-* Write a function that outputs the performance of the model on slices of the data.
-   * Suggestion: for simplicity, the function can just output the performance on slices of just the categorical features.
-* Write a model card using the provided template.
-
+Configure GitHub Actions on your repository to run pytest and flake8 on push.
+## Data Preparation
+Download the census.csv dataset from the data folder in the starter repository.
+Clean the data by removing spaces.
+## Model Development
+Write a machine learning model using the starter code provided.
+Write unit tests for at least 3 functions in the model code.
+Write a function to output the performance of the model on slices of the data.
+Write a model card using the provided template.
+## Evaluation Model Metrics
+Evaluation on Test Set:
+Precision: 0.7093596059113301
+Recall: 0.2755102040816326
+Fbeta: 0.3968764354616444
 ## API Creation
+Create a RESTful API using FastAPI with endpoints for model inference.
+Write unit tests to test the API endpoints.
+API Deployment
+Deploy the API using Render:
 
-* Create a RESTful API using FastAPI this must implement:
-   * GET on the root giving a welcome message.
-   * POST that does model inference.
-   * Type hinting must be used.
-   * Use a Pydantic model to ingest the body from POST. This model should contain an example.
-    * Hint: the data has names with hyphens and Python does not allow those as variable names. Do not modify the column names in the csv and instead use the functionality of FastAPI/Pydantic/etc to deal with this.
-* Write 3 unit tests to test the API (one for the GET and two for POST, one that tests each prediction).
+Free Instance: Set up a free instance on Render.
+Configure Render: Configure Render to deploy your API.
+GitHub Actions Integration: Integrate Render with GitHub Actions for continuous deployment.
+Running the Application
+To run the application locally, follow these steps:
 
-## API Deployment
+Start the FastAPI server using the following command:
 
-* Create a free Heroku account (for the next steps you can either use the web GUI or download the Heroku CLI).
-* Create a new app and have it deployed from your GitHub repository.
-   * Enable automatic deployments that only deploy if your continuous integration passes.
-   * Hint: think about how paths will differ in your local environment vs. on Heroku.
-   * Hint: development in Python is fast! But how fast you can iterate slows down if you rely on your CI/CD to fail before fixing an issue. I like to run flake8 locally before I commit changes.
-* Set up DVC on Heroku using the instructions contained in the starter directory.
-* Set up access to AWS on Heroku, if using the CLI: `heroku config:set AWS_ACCESS_KEY_ID=xxx AWS_SECRET_ACCESS_KEY=yyy`
-* Write a script that uses the requests module to do one POST on your live API.
+bash
+Copy code
+uvicorn src.main:app --host 0.0.0.0 --port 10000
+Access the API at http://localhost:10000.
+
+## Scripts Overview
+main.py: Contains the FastAPI app with endpoints for model inference.
+model.py: Defines functions for training, evaluating, and inference with the machine learning model.
+train_model.py: Script to train the machine learning model, evaluate its performance, and save it.
+requirements.txt: List of dependencies for the project.
+### Test Scripts
+The repository also contains two test scripts under the test/ directory:
+
+test_main.py: Contains unit tests for the API endpoints.
+test_model.py: Contains unit tests for the machine learning model.
+## Contributors
+Geremy Bantg
+Feel free to contribute to this project by forking the repository and submitting pull requests with your enhancements or fixes.
+
+For any questions or issues, please open an issue in the repository.
