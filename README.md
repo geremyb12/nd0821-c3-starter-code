@@ -71,8 +71,11 @@ Write a function to output the performance of the model on slices of the data.
 Write a model card using the provided template.
 ## Evaluation Model Metrics
 Evaluation on Test Set:
+
 Precision: 0.7093596059113301
+
 Recall: 0.2755102040816326
+ 
 Fbeta: 0.3968764354616444
 ## API Creation
 Create a RESTful API using FastAPI with endpoints for model inference.
