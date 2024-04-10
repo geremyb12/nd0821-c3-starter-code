@@ -69,7 +69,8 @@ The repository also contains two test scripts under the test/ directory:
 test_main.py: Contains unit tests for the API endpoints.
 test_model.py: Contains unit tests for the machine learning model.
 ## Contributors
-Geremy Bantg
+Geremy Bantug
+
 Feel free to contribute to this project by forking the repository and submitting pull requests with your enhancements or fixes.
 
 For any questions or issues, please open an issue in the repository.
