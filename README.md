@@ -2,6 +2,41 @@
 
 This repository contains starter code for the **Census Income Prediction** project as part of the Udacity Data Scientist Nanodegree program.
 
+```python
+import requests
+
+# Example input data
+sample_input_data = {
+    "age": 35,
+    "workclass": "Private",
+    "fnlwgt": 25000,
+    "education": "Some-college",
+    "education_num": 10,
+    "marital_status": "Married-civ-spouse",
+    "occupation": "Sales",
+    "relationship": "Husband",
+    "race": "White",
+    "sex": "Male",
+    "capital_gain": 5000,
+    "capital_loss": 0,
+    "hours_per_week": 45,
+    "native_country": "United-States"
+}
+
+# Endpoint URL
+endpoint_url = "http://example.com/predict/"
+
+# Send POST request
+response = requests.post(endpoint_url, json=sample_input_data)
+
+# Check response status
+if response.status_code == 200:
+    predictions = response.json()["predictions"]
+    print("Predictions:", predictions)
+else:
+    print("Failed to receive predictions. Status code:", response.status_code)
+```
+
 ## Overview
 
 The project aims to develop a machine learning model to predict whether an individual's income exceeds $50,000 per year based on census data. The project involves several stages including data preprocessing, model development, API creation, and deployment.
