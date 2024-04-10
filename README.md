@@ -65,7 +65,7 @@ Configure GitHub Actions on your repository to run pytest and flake8 on push.
 Download the census.csv dataset from the data folder in the starter repository.
 Clean the data by removing spaces.
 ## Model Development
-A logistic regression model was trained and tested using the initial starter code.
+A logistic regression model was trained and tested using the initial starter code from nd0821-c3-starter-code.
 ## Evaluation Model Metrics
 Evaluation on Test Set:
 
