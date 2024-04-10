@@ -65,10 +65,7 @@ Configure GitHub Actions on your repository to run pytest and flake8 on push.
 Download the census.csv dataset from the data folder in the starter repository.
 Clean the data by removing spaces.
 ## Model Development
-Write a machine learning model using the starter code provided.
-Write unit tests for at least 3 functions in the model code.
-Write a function to output the performance of the model on slices of the data.
-Write a model card using the provided template.
+A logistic regression model was trained and tested using the initial starter code.
 ## Evaluation Model Metrics
 Evaluation on Test Set:
 
@@ -91,8 +88,8 @@ To run the application locally, follow these steps:
 
 Start the FastAPI server using the following command:
 
-bash
-Copy code
+Start-up command
+
 uvicorn src.main:app --host 0.0.0.0 --port 10000
 Access the API at http://localhost:10000.
 
